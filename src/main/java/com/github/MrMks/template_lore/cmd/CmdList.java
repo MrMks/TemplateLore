@@ -1,15 +1,16 @@
 package com.github.MrMks.template_lore.cmd;
 
-import com.github.MrMks.dev_tools_b.cmd.ICmdFunc;
 import com.github.MrMks.template_lore.config.ConfigManager;
+import com.github.mrmks.mc.dev_tools_b.cmd.AbstractCommand;
+import com.github.mrmks.mc.dev_tools_b.cmd.ICommandProperty;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CmdList implements ICmdFunc {
-    @Override
+public class CmdList extends AbstractCommand {
+
     public List<String> onTabComplete(CommandSender commandSender, String s, List<String> list) {
         if (list.size() > 1) return Collections.emptyList();
         else {
@@ -19,7 +20,6 @@ public class CmdList implements ICmdFunc {
         }
     }
 
-    @Override
     public boolean onExecute(CommandSender commandSender, String s, List<String> list) {
         int page = 0;
         String group = "default";
@@ -47,5 +47,15 @@ public class CmdList implements ICmdFunc {
         }
         commandSender.sendMessage(builder.toString());
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteSelf(CommandSender sender, ICommandProperty property, List<String> labels, List<String> args) {
+        return onTabComplete(sender, labels.get(labels.size() - 1), args);
+    }
+
+    @Override
+    protected boolean commandSelf(CommandSender commandSender, ICommandProperty iCommandProperty, List<String> labels, List<String> list) {
+        return onExecute(commandSender, labels.get(labels.size() - 1), list);
     }
 }

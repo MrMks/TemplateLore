@@ -1,22 +1,20 @@
 package com.github.MrMks.template_lore;
 
-import com.github.MrMks.dev_tools_b.cmd.CommandRegistry;
-import com.github.MrMks.dev_tools_b.cmd.ICmdFunc;
-import com.github.MrMks.dev_tools_b.cmd.SenderType;
-import com.github.MrMks.dev_tools_b.cmd.SubCommand;
 import com.github.MrMks.template_lore.cmd.CmdGet;
 import com.github.MrMks.template_lore.cmd.CmdList;
-import com.google.common.collect.ImmutableSet;
-import org.bukkit.command.CommandSender;
+import com.github.MrMks.template_lore.cmd.CmdReload;
+import com.github.mrmks.mc.dev_tools_b.cmd.CommandPackage;
+import com.github.mrmks.mc.dev_tools_b.cmd.CommandProperty;
+import com.github.mrmks.mc.dev_tools_b.cmd.CommandRegistry;
+import com.github.mrmks.mc.dev_tools_b.cmd.SubCommand;
+import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
+import com.google.common.collect.ImmutableList;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
 public class CommandManager {
     private static PluginCommand pm;
+    /*
     public static void register(PluginCommand pm) {
         CommandManager.pm = pm;
         SubCommand root = new SubCommand(pm.getName(), new HashSet<>(pm.getAliases()), "base command for plugin 'Template Lore'","<sub> [args]", SenderType.ANYONE, "tl.perm.*");
@@ -41,8 +39,57 @@ public class CommandManager {
         CommandRegistry.register(pm, root);
     }
 
-    public static void unregister() {
-        CommandRegistry.unregister(pm);
-        pm = null;
+     */
+
+    private Plugin plugin;
+    CommandManager(Plugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public void register(LanguageAPI api) {
+        CommandProperty rootProperty = new CommandProperty(
+                "tl",
+                "Base command for plugin 'TemplateLore'",
+                "tl.cmd.tl.desc",
+                "<command>",
+                "tl.cmd.tl.usg");
+        SubCommand rootFunction = new SubCommand(api);
+
+        rootFunction.addCommand(new CommandProperty(
+                "reload",
+                ImmutableList.of("r"),
+                "tl.perm.cmd.reload",
+                "reload TemplateLore plugin",
+                "tl.cmd.tl.reload.desc",
+                "",
+                "tl.cmd.tl.reload.usg"
+        ), new CmdReload(plugin));
+
+        rootFunction.addCommand(new CommandProperty(
+                "list",
+                ImmutableList.of("l"),
+                "tl.perm.cmd.list",
+                "list templates",
+                "tl.cmd.tl.list.desc",
+                "[page]",
+                "tl.cmd.tl.list.usg"
+        ), new CmdList());
+
+        rootFunction.addCommand(new CommandProperty(
+                "get",
+                ImmutableList.of("g"),
+                "tl.perm.cmd.get",
+                "Get a parsed template item",
+                "tl.cmd.tl.get.desc",
+                "<template> [player] [args...]",
+                "tl.cmd.tl.get.usg"
+        ), new CmdGet());
+
+        CommandPackage pack = new CommandPackage(rootProperty, rootFunction);
+        CommandRegistry.register(plugin, pack);
+    }
+
+    public void unregister() {
+        CommandRegistry.unregister(plugin);
     }
 }

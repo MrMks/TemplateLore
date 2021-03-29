@@ -1,9 +1,10 @@
 package com.github.MrMks.template_lore.cmd;
 
-import com.github.MrMks.dev_tools_b.cmd.ICmdFunc;
 import com.github.MrMks.template_lore.config.ConfigManager;
 import com.github.MrMks.template_lore.config.TemplateFile;
 import com.github.MrMks.template_lore.config.TemplateParser;
+import com.github.mrmks.mc.dev_tools_b.cmd.AbstractCommand;
+import com.github.mrmks.mc.dev_tools_b.cmd.ICommandProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,8 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class CmdGet implements ICmdFunc {
-    @Override
+public class CmdGet extends AbstractCommand {
     public List<String> onTabComplete(CommandSender commandSender, String s, List<String> list) {
         if (list.size() == 1) {
             List<String> tmps = ConfigManager.getAllGroups();
@@ -36,7 +36,6 @@ public class CmdGet implements ICmdFunc {
         else return Collections.emptyList();
     }
 
-    @Override
     public boolean onExecute(CommandSender sender, String s, List<String> args) {
         Player player;
         String group;
@@ -95,5 +94,15 @@ public class CmdGet implements ICmdFunc {
             sender.sendMessage("Can not get template with name " + name + " in group " + group);
         }
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteSelf(CommandSender commandSender, ICommandProperty iCommandProperty, List<String> labels, List<String> list) {
+        return onTabComplete(commandSender, labels.get(labels.size() - 1), list);
+    }
+
+    @Override
+    protected boolean commandSelf(CommandSender commandSender, ICommandProperty iCommandProperty, List<String> labels, List<String> list) {
+        return onExecute(commandSender, labels.get(labels.size() - 1), list);
     }
 }

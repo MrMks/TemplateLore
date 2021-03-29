@@ -1,7 +1,5 @@
 package com.github.MrMks.template_lore.config;
 
-import org.bukkit.Material;
-
 import java.util.Collections;
 import java.util.List;
 

@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.MrMks'
-version '0.0.2.2-SNAPSHOT'
+version '0.0.3-1.build6'
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.6'
-    compileOnly 'com.github.mrmks:DevToolsB:0.0.1-1'
+    compileOnly 'com.github.mrmks.mc:DevToolsB:0.0.4-3.build9'
 }
 
 processResources {
