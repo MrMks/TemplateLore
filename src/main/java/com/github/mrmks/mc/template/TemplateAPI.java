@@ -1,8 +1,6 @@
-package com.github.MrMks.template_lore.api;
+package com.github.mrmks.mc.template;
 
-import com.github.MrMks.template_lore.config.ConfigManager;
-import com.github.MrMks.template_lore.config.TemplateFile;
-import com.github.MrMks.template_lore.config.TemplateParser;
+import com.github.mrmks.mc.template.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -24,7 +22,7 @@ public class TemplateAPI {
         loaded = false;
         plugin = null;
     }
-
+/*
     public void addWordStock(String key, List<String> words) throws IllegalStateException{
         if (!loaded) throw new IllegalStateException("This TemplateAPI instance has been unloaded");
         if (ConfigManager.hasWord(key)) plugin.getLogger().warning(String.format("WordStock with name %s has been registered", key));
@@ -58,4 +56,6 @@ public class TemplateAPI {
         if (file != null && offlinePlayer != null) return TemplateParser.getParsedTemplate(offlinePlayer, file);
         else return new ItemStack(Material.AIR);
     }
+
+ */
 }

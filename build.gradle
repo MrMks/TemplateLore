@@ -2,13 +2,15 @@ plugins {
     id 'java'
 }
 
-group 'com.github.MrMks'
-version '0.0.3-1.build6'
+group 'com.github.mrmks.mc'
+version '0.1.0-build7-a1'
 
 repositories {
     mavenCentral()
     mavenLocal()
-    maven {url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"}
+    maven {
+        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
@@ -16,9 +18,12 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
+    compileOnly('org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT') {
+        exclude group: 'junit'
+    }
     compileOnly 'me.clip:placeholderapi:2.10.6'
-    compileOnly 'com.github.mrmks.mc:DevToolsB:0.0.4-3.build9'
+    compileOnly 'com.github.mrmks.mc:DevToolsB:0.6.1-build15'
+    compileOnly files('../Libraries/craftbukkit-1.12.2.jar')
 }
 
 processResources {

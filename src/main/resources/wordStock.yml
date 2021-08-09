@@ -1,0 +1,4 @@
+WordStockName:
+  # weight|content, if the weight is not given, the weight will be 1;
+  - 1|sdjidsf
+  - 1|fjskfjie

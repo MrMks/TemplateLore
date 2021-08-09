@@ -1,4 +1,4 @@
-package com.github.MrMks.template_lore.papi;
+package com.github.mrmks.mc.template.papi;
 
 import org.bukkit.OfflinePlayer;
 

@@ -1,18 +1,18 @@
 name: TemplateLore
 version: ${version}
-main: com.github.MrMks.template_lore.Main
+main: com.github.mrmks.mc.template.TemplateLore
 depend: [DevToolsB]
 softdepend: [PlaceholderAPI]
 commands:
   tl:
-    permission: tl.perm.*
+    permission: tl.perm.cmd.*
 permissions:
-  tl.perm.get:
+  tl.perm.cmd.get:
     default: op
-  tl.perm.list:
+  tl.perm.cmd.list:
     default: op
-  tl.perm.reload:
+  tl.perm.cmd.reload:
     default: op
-  tl.perm.*:
+  tl.perm.cmd.*:
     default: op
-    children: [tl.perm.get, tl.perm.list, tl.perm.reload]
+    children: [tl.perm.cmd.get, tl.perm.cmd.list, tl.perm.cmd.reload]

@@ -1,0 +1,84 @@
+# the template key
+key:
+  # use & instead of § as the format token.
+  # remove the name key or use n| to skip the name value
+  # if n| is the exact thing you want to set, use n|| instead. the second '|' next to the first one will be parsed to '|'
+  name: "A Special Display Name"
+  # LocName
+  # remove the locName key or use n|n to skip the locName value
+  locName: "cssddssasdssdasdsasds"
+  # the bukkit material Enum Name or Enum Id
+  # this value can't be empty, if the value is empty or the value is failed to parse, the template will be skip
+  id: AIR
+  # the damage of the item, this can also used as meta
+  # if the value failed to parse, the value will be 0
+  damage: 20
+  # the size will not be applied when the item is not stackable
+  # if the value failed to parse, the value will be 1;
+  size: 1
+  # lore to set
+  # the n| will show that this line should not be set in lore. if you do want to set the line to n|, use n||, use n||| as n||, n|||| as n||| and so on.
+  lore:
+    - abcds
+    - fkdjsic
+    - ffffffffffffff
+    - sldkfjhgalskdjfhg
+    - n|
+    - n|
+  # keys listed below will not be applied:
+  # display, Damage, Count, id
+  nbt:
+    # the key should keep the format like: key|token, if there isn't an token with the key, the parse will follow the rule below:
+    # when the value is a list, then test the first value. if the first value can be parse to a long, then this will be a long array
+    # if the first value can't be parse to a long, then this will be a list;
+    # when the value has sub section, then this will be a compound;
+    # when the value can be parse to a long, then it will be a long, then try the double, final the str.
+    # this means it's ok to keep token empty, but it will occupy more memories than your data is required
+
+    # if the key|token is required to use as an exact key, use key||token, use key|||token to show key||token, and so on
+    # if the token is n or the value is n|n, the value will be skip
+
+    # key|token(one code)
+    key|b: 0 #byte
+    key|B: [0,0,0,1] #byte array
+    key|i: 20 #int
+    key|I: [20,21,22] #int array
+    key|l: 2000 #long
+    key|L: [2000, 21000, 220000] #long array
+    key|s: 2020 # short
+    key|d: 200987.2918 # double
+    key|f: 2093.98 # float
+    key|S: jid7e3mjc983 # String
+    key|a: # list(array)
+      - i # the first element should be the type token to identity the type of content of the list
+      - 0 # content of the list
+
+# <r:a,b> random an number between a and b
+# <s:key> random select word
+# <l:key> random select word and remember the word(after wrapped), will return the same word at next use
+# <L:key> similar to the l but remember the not wrapped word
+# <c:a,b> copy b times of a, for example, <c:|,0> will be "", <c:p,3> will be "ppp". notice that the ' ' at the beginning or the ending of the a will be trimmed. In this way, you can not repeat ' '
+# <C:b> since the c can not repeat ' ', this will repeat b times of ' ';
+# <f:n,format> use DecimalFormat to format the number
+# <m:math formula> cal the given formula.
+
+# m: for formula, those operator are available:
+# +/-, positive of negative number, 1
+# ^, pow, 2
+# *, multiplier, 3
+# /, divide in java, 3
+# \, a \ b == a - a / b, 4
+# +, add or positive number, 5
+# -, subtract or negative number, 5
+
+# round(a,b), Math.round(a / 10 ^ b) * 10 ^ b, notice that the b must be an integer
+# round(a), equal to round(a, 0);
+# ceil(a,b), Math.ceil(a / 10 ^ b) * 10 ^ b, notice that the b must be an integer
+# ceil(a), equal to ceil(a, 0);
+# floor(a,b), Math.floor(a / 10 ^ b) * 10 ^ b, notice that the b must be an integer
+# floor(a), equal to floor(a, 0);
+# ()
+
+# 标签解析从左向右进行, 只有上面列出的标签会被识别为标签
+# <\s*[rslLm]\s*:.*>
+# 不符合此正则表达式的将不会被做任何处理
