@@ -2,8 +2,10 @@ package com.github.mrmks.mc.template.cmd;
 
 import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCfgCommand;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
+import com.github.mrmks.mc.dev_tools_b.lang.LanguageHelper;
 import com.github.mrmks.mc.dev_tools_b.utils.ArraySlice;
 import com.github.mrmks.mc.template.config.ConfigManager;
+import com.google.common.collect.ImmutableMap;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -16,7 +18,7 @@ public class CmdList extends FunctionCfgCommand {
     public CmdList(LanguageAPI api, ConfigManager cfg) {
         super(api,
                 "tl.cmd.list",
-                "list", new String[]{"l"},
+                "list", null,
                 "tl.cmd.list.desc",
                 "tl.cmd.list.usg",
                 "tl.perm.cmd.list",
@@ -35,25 +37,25 @@ public class CmdList extends FunctionCfgCommand {
 
     public boolean execute(CommandSender commandSender, String label, String fLabel, ArraySlice<String> args) {
         int page = 0;
-        String group = "default";
+        String group;
         if (args.size() > 1) {
+            group = args.first();
             try {
-                page = Integer.parseInt(args.first());
+                page = Integer.parseInt(args.at(1));
             } catch (Throwable tr) {
-                commandSender.sendMessage("arg " + args.first() + " is not a number");
+                LanguageHelper helper = getHelper(commandSender);
+                commandSender.sendMessage(helper.trans("tl.cmd.list.page_not_num", ImmutableMap.of("arg", args.at(1))));
                 return true;
             }
-            group = args.at(1);
         } else if (args.size() > 0) {
-            try {
-                page = Integer.parseInt(args.first());
-            } catch (Throwable tr) {
-                group = args.first();
-            }
+            group = args.first();
+        } else {
+            group = ConfigManager.GROUP;
         }
         List<String> keys = cfg.getNames(group).stream().sorted().collect(Collectors.toList());
         page = Math.max(Math.min(page, (keys.size() - 1) / 10), 0);
-        StringBuilder builder = new StringBuilder("Available templates in group "+group+" at page "+page+"\n");
+        LanguageHelper helper = getHelper(commandSender);
+        StringBuilder builder = new StringBuilder(helper.trans("tl.cmd.list.list_title", ImmutableMap.of("group", group, "page", Integer.toString(page)))).append('\n');
         int first = page * 10;
         for (int i = first; i < Math.min(first + 10, keys.size()); i++){
             builder.append(keys.get(i)).append("\n");

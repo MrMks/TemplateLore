@@ -19,6 +19,7 @@ public class CommandManager {
         rootAdaptor.addChild(cmdCfg.loadCommand(new CmdReload(api, cfg)));
         rootAdaptor.addChild(cmdCfg.loadCommand(new CmdList(api, cfg)));
         rootAdaptor.addChild(cmdCfg.loadCommand(new CmdGet(api, cfg)));
+        cmdCfg.save();
         root.setExecutor(rootAdaptor);
     }
 

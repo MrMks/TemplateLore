@@ -1,4 +1,19 @@
-tl.cmd.get:
-  desc:
-  usg:
-  permMsg:
+tl.cmd:
+  get:
+    name: get
+    description: tl.cmd.get.desc
+    usage: tl.cmd.get.usg
+    permission: tl.perm.cmd.get
+    permissionMessage: tl.cmd.get.permMsg
+  reload:
+    name: reload
+    description: tl.cmd.reload.desc
+    usage: tl.cmd.reload.usg
+    permission: tl.perm.cmd.reload
+    permissionMessage: tl.cmd.reload.permMsg
+  list:
+    name: list
+    description: tl.cmd.list.desc
+    usage: tl.cmd.list.usg
+    permission: tl.perm.cmd.list
+    permissionMessage: tl.cmd.list.permMsg

@@ -2,10 +2,12 @@ package com.github.mrmks.mc.template.cmd;
 
 import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCfgCommand;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
+import com.github.mrmks.mc.dev_tools_b.lang.LanguageHelper;
 import com.github.mrmks.mc.dev_tools_b.utils.ArraySlice;
 import com.github.mrmks.mc.template.config.ConfigManager;
 import com.github.mrmks.mc.template.TemplateFile;
 import com.github.mrmks.mc.template.TemplateParser;
+import com.google.common.collect.ImmutableMap;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,11 +21,11 @@ public class CmdGet extends FunctionCfgCommand {
     public CmdGet(LanguageAPI api, ConfigManager cfg) {
         super(api,
                 "tl.cmd.get",
-                "get", new String[]{"g"},
-                "desc",
-                "usg",
-                "perm",
-                "permMsg");
+                "get", null,
+                "tl.cmd.get.desc",
+                "tl.cmd.get.usg",
+                "tl.perm.cmd.get",
+                "tl.cmd.get.permMsg");
         this.cfg = cfg;
     }
 
@@ -60,7 +62,7 @@ public class CmdGet extends FunctionCfgCommand {
                 case 0:
                     return false;
                 case 1:
-                    group = "default";
+                    group = ConfigManager.GROUP;
                     name = args.at(0);
                     args = args.slice(1);
                     break;
@@ -78,7 +80,7 @@ public class CmdGet extends FunctionCfgCommand {
                 case 1:
                     return false;
                 case 2:
-                    group = "default";
+                    group = ConfigManager.GROUP;
                     name = args.at(0);
                     playerName = args.at(1);
                     player = getPlayer(playerName);
@@ -94,7 +96,8 @@ public class CmdGet extends FunctionCfgCommand {
                     break;
             }
             if (player == null) {
-                sender.sendMessage("Can not find online player named " + playerName);
+                LanguageHelper helper = getHelper(sender);
+                sender.sendMessage(helper.trans("tl.cmd.get.offline_player", ImmutableMap.of("player", playerName)));
                 return true;
             }
         }
@@ -106,9 +109,11 @@ public class CmdGet extends FunctionCfgCommand {
             }
             ItemStack stack = TemplateParser.parseTemplate(player, template, cfg, map);
             player.getInventory().addItem(stack);
-            sender.sendMessage("Player " + player.getName() + " have got the target item");
+            LanguageHelper helper = getHelper(sender);
+            sender.sendMessage(helper.trans("tl.cmd.get.parse_success", ImmutableMap.of("player", player.getName())));
         } else {
-            sender.sendMessage("Can not get template with name " + name + " in group " + group);
+            LanguageHelper helper = getHelper(sender);
+            sender.sendMessage(helper.trans("tl.cmd.get.not_exist", ImmutableMap.of("name", name, "group", group)));
         }
         return true;
     }

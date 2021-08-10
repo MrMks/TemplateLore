@@ -68,6 +68,8 @@ public class TemplateParser {
                 TagCompound tag = item.getTag();
                 ConfigurationSection nbts = temp.getNbtSection();
                 parseNbt(tag, nbts, info);
+                item.setTag(tag);
+                stack = item.getItem();
             }
         }
         return stack;
@@ -112,18 +114,18 @@ public class TemplateParser {
             if (v < mc || v > rc) continue;
 
             if (v == lc) {
-                if (lv != sl) bs.push(i - d);
+                if (lv != sl) bs.push(i + d);
             } else {
                 if (v == mc) {
-                    if (ms.size() < bs.size()) ms.push(i - d);
+                    if (ms.size() < bs.size()) ms.push(i + d);
                 } else if (v == rc) {
                     if (ms.size() > 0) {
-                        int bi = bs.pop(), mi = ms.pop(), ei = i - d;
+                        int bi = bs.pop(), mi = ms.pop(), ei = i + d;
                         if (bi < mi - 1 && mi < ei - 1) {
-                            String tk = str.substring(bi + 1, mi).trim();
+                            String tk = bd.substring(bi + 1, mi).trim();
                             IParser parser = meMap.get(tk);
                             if (parser != null) {
-                                String rst = parser.parse(str.substring(mi + 1, ei).trim(), info);
+                                String rst = parser.parse(bd.substring(mi + 1, ei).trim(), info);
                                 if (rst != null) {
                                     bd.replace(bi, ei + 1, rst);
                                     d += rst.length() - (ei - bi + 1);
@@ -359,7 +361,7 @@ public class TemplateParser {
 
     private static short parseShort(String str) {
         try {
-            return Short.parseShort(str);
+            return (short) Math.round(Float.parseFloat(str));
         } catch (NumberFormatException e) {
             return 0;
         }
@@ -421,7 +423,8 @@ public class TemplateParser {
     }
 
     public static String parse_m(String s, ParseInfo info) {
-        return FormulaAPI.mathCal(s).toString();
+        Number nm = FormulaAPI.mathCal(s);
+        return nm == null ? null : nm.toString();
     }
 
     public static String parse_c(String s, ParseInfo info) {

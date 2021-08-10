@@ -37,18 +37,18 @@ public class FormulaAPI {
                         if (d < 0) d = 0;
                         else return null;
                     } else {
-                        double r = n;
-                        if (d > 0) {
-                            double fc = 0.1;
-                            while (--d > 0) fc *= 0.1;
-                            r += (fc * fn - 1);
-                        }
-                        if (!chkFst(ms)) return null;
-                        ms.add(new Num(r));
                         ts = v;
                         break;
                     }
                 }
+                double r = n;
+                if (d > 0) {
+                    double fc = 0.1;
+                    while (--d > 0) fc *= 0.1;
+                    r += (fc * fn - 1);
+                }
+                if (!chkFst(ms)) return null;
+                ms.add(new Num(r));
             } else if ((v >= 'A' && v <= 'Z') || (v >= 'a' && v <= 'z')) {
                 char cv = (char) (v <= 'Z' ? v + 32 : v);
                 StringBuilder bd = new StringBuilder();

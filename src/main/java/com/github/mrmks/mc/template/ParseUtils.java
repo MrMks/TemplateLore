@@ -13,7 +13,11 @@ public class ParseUtils {
         if (s == null) return null;
         s = s.trim();
         int bi = s.indexOf(','), ei = s.lastIndexOf(',');
-        if (bi != ei || bi < 1 || ei > s.length() - 2) return null;
+        if (bi != ei || bi < 1 || ei > s.length() - 2) {
+            bi = s.indexOf('_');
+            ei = s.lastIndexOf('_');
+            if (bi != ei || bi < 1 || ei > s.length() - 2) return null;
+        }
         String a = s.substring(0, bi).trim(), b = s.substring(bi + 1).trim();
         try {
             int ia = Integer.parseInt(a), ib = Integer.parseInt(b);
