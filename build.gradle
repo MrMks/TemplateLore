@@ -22,7 +22,7 @@ dependencies {
         exclude group: 'junit'
     }
     compileOnly 'me.clip:placeholderapi:2.10.6'
-    compileOnly 'com.github.mrmks.mc:DevToolsB:0.6.1-build15'
+    compileOnly 'com.github.mrmks.mc:DevToolsB:0.6.2-build16'
     compileOnly files('../Libraries/craftbukkit-1.12.2.jar')
 }
 
