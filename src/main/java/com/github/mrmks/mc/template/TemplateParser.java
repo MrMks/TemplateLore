@@ -78,7 +78,7 @@ public class TemplateParser {
     private static String parsePrefix(String str) {
         if (str == null) return null;
         if (str.startsWith("n||"))
-            return "n|" + str.substring(2);
+            return "n|" + str.substring(3);
         if (str.startsWith("n|")) return null;
         return str;
     }
@@ -156,12 +156,16 @@ public class TemplateParser {
                 char t = k.charAt(k.length() - 2), et = k.charAt(k.length() - 3);
                 if (t == '|') {
                     tk = k.charAt(k.length() - 1);
-                    k = k.substring(0, k.length() - 2);
-                    if (et == '|') {
-                        k = k + tk;
-                    } else if (!testToken(tk)) {
-                        k = src_k;
-                    } else useType = true;
+                    if (testToken(tk) || tk == 'n') {
+                        if (et == '|') {
+                            k = k.substring(0, k.length() - 2) + tk;
+                        } else if (tk != 'n'){
+                            k = k.substring(0, k.length() - 2);
+                            useType = true;
+                        } else {
+                            continue;
+                        }
+                    }
                 }
             }
 

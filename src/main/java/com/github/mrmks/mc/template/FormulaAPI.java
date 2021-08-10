@@ -147,7 +147,7 @@ public class FormulaAPI {
 
         LinkedList<OperateSymbol> ops = new LinkedList<>();
         LinkedList<Num> nums = new LinkedList<>();
-        int mp = Integer.MIN_VALUE, np = Integer.MAX_VALUE;
+        int mp = Integer.MIN_VALUE;
 
         ListIterator<MathThing> lit = list.listIterator(list.size());
         while (lit.hasPrevious() && lit.previousIndex() > 1) {
@@ -179,7 +179,6 @@ public class FormulaAPI {
                 } else return null;
                 ops.push(op);
                 mp = Math.max(mp, op.priority());
-                np = Math.min(np, op.priority());
             } else return null;
         }
         if (list.getFirst() instanceof MathResult) {
@@ -187,7 +186,8 @@ public class FormulaAPI {
             else nums.push(new Num(((MathResult) list.getFirst()).cal()));
         } else return null;
 
-        for (int i = mp; i >= np; i--) {
+        int np = Integer.MIN_VALUE;
+        for (int i = mp; !ops.isEmpty(); i = np) {
             ListIterator<OperateSymbol> it = ops.listIterator();
             while (it.hasNext()) {
                 OperateSymbol op = it.next();
@@ -195,6 +195,8 @@ public class FormulaAPI {
                     Num a = nums.get(it.previousIndex());
                     a.n = operate(a.n, nums.remove(it.previousIndex() + 1).n, op);
                     it.remove();
+                } else {
+                    np = Math.max(op.priority(), np);
                 }
             }
         }
