@@ -97,46 +97,23 @@ public class TemplateParser {
                     .put("m", TemplateParser::parse_m);
             meMap = bd.build();
         }
-        str = papiParser.parse(info.getPlayer(), str);
-        StringBuilder bd = new StringBuilder(str);
-
-        int i = -1, v = -1, lv, d = 0;
-        // ':' is 58, '<' is 60, '>' is 62, '\' is 92;
-        int lc = '<', mc = ':', rc = '>';
-        int sl = '\\';
-        Stack<Integer> bs = new Stack<>(), ms = new Stack<>();
-        PrimitiveIterator.OfInt it = str.codePoints().iterator();
-
-        while (it.hasNext()) {
-            lv = v;
-            v = it.next();
-            i += v < Character.MIN_SUPPLEMENTARY_CODE_POINT ? 1 : 2;
-            if (v < mc || v > rc) continue;
-
-            if (v == lc) {
-                if (lv != sl) bs.push(i + d);
-            } else {
-                if (v == mc) {
-                    if (ms.size() < bs.size()) ms.push(i + d);
-                } else if (v == rc) {
-                    if (ms.size() > 0) {
-                        int bi = bs.pop(), mi = ms.pop(), ei = i + d;
-                        if (bi < mi - 1 && mi < ei - 1) {
-                            String tk = bd.substring(bi + 1, mi).trim();
-                            IParser parser = meMap.get(tk);
-                            if (parser != null) {
-                                String rst = parser.parse(bd.substring(mi + 1, ei).trim(), info);
-                                if (rst != null) {
-                                    bd.replace(bi, ei + 1, rst);
-                                    d += rst.length() - (ei - bi + 1);
-                                }
-                            }
-                        }
-                    }
-                }
+        ITokenProvider pv = new ITokenProvider() {
+            @Override
+            public boolean has(String tk) {
+                return meMap.containsKey(tk);
             }
-        }
-        return bd.toString();
+
+            @Override
+            public String parse(String tk, String val) {
+                return meMap.get(tk).parse(val, info);
+            }
+
+            @Override
+            public String parse(String val) {
+                return papiParser.parse(info.player, val);
+            }
+        };
+        return ParseUtils.parse(str, pv);
     }
 
     private static void parseNbt(TagCompound base, ConfigurationSection sec, ParseInfo info) {
@@ -383,10 +360,6 @@ public class TemplateParser {
         OfflinePlayer player;
         ConfigManager cfg;
         Map<String, String> map;
-
-        public OfflinePlayer getPlayer() {
-            return player;
-        }
 
         String getWord(String key) {
             if (map.containsKey(key)) return map.get(key);

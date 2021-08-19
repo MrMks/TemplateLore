@@ -4,6 +4,7 @@ import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCfgCommand;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageHelper;
 import com.github.mrmks.mc.dev_tools_b.utils.ArraySlice;
+import com.github.mrmks.mc.dev_tools_b.utils.StringReplace;
 import com.github.mrmks.mc.template.config.ConfigManager;
 import com.github.mrmks.mc.template.TemplateFile;
 import com.github.mrmks.mc.template.TemplateParser;
@@ -97,7 +98,7 @@ public class CmdGet extends FunctionCfgCommand {
             }
             if (player == null) {
                 LanguageHelper helper = getHelper(sender);
-                sender.sendMessage(helper.trans("tl.cmd.get.offline_player", ImmutableMap.of("player", playerName)));
+                sender.sendMessage(helper.trans("tl.cmd.get.offline_player", "player", playerName));
                 return true;
             }
         }
@@ -110,10 +111,10 @@ public class CmdGet extends FunctionCfgCommand {
             ItemStack stack = TemplateParser.parseTemplate(player, template, cfg, map);
             player.getInventory().addItem(stack);
             LanguageHelper helper = getHelper(sender);
-            sender.sendMessage(helper.trans("tl.cmd.get.parse_success", ImmutableMap.of("player", player.getName())));
+            sender.sendMessage(helper.trans("tl.cmd.get.parse_success","player", player.getName()));
         } else {
             LanguageHelper helper = getHelper(sender);
-            sender.sendMessage(helper.trans("tl.cmd.get.not_exist", ImmutableMap.of("name", name, "group", group)));
+            sender.sendMessage(new StringReplace(helper.trans("tl.cmd.get.not_exist")).replace("name", name).replace("group", group).toString());
         }
         return true;
     }

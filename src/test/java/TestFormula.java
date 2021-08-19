@@ -1,4 +1,5 @@
 import com.github.mrmks.mc.template.FormulaAPI;
+import com.github.mrmks.mc.template.ITokenProvider;
 import com.github.mrmks.mc.template.ParseUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +23,6 @@ public class TestFormula {
             int size = matcher.groupCount();
             for (int i = 1; i <= size; i++) {
                 System.out.println(matcher.group(1));
-                System.out.println(matcher.group(2));
             }
         }
     }
@@ -57,7 +57,7 @@ public class TestFormula {
         Assert.assertNull(ParseUtils.format("29304,"));
         Assert.assertNull(ParseUtils.format(",#.##"));
         Assert.assertNull(ParseUtils.format("kijhl,#.##"));
-        Assert.assertEquals("kngytd293849tfd", ParseUtils.format("293849.0924,kngytd#.#tfd"));
+        Assert.assertEquals("kngytd293849tfd", ParseUtils.format("293849.0924,kngytd#tfd"));
         Assert.assertEquals("1452.2450", ParseUtils.format("1452.245,#.0000"));
         Assert.assertEquals("12015", ParseUtils.format("12015.0001245,#.##"));
     }
@@ -65,5 +65,27 @@ public class TestFormula {
     @Test
     public void testParseCal() {
         Assert.assertEquals(46d, FormulaAPI.mathCal("1+10+11+12*2-(10 + -10)"));
+    }
+
+    @Test
+    public void testParseMain() {
+        ITokenProvider pv = new ITokenProvider() {
+            @Override
+            public boolean has(String tk) {
+                return true;
+            }
+
+            @Override
+            public String parse(String tk, String val) {
+                return tk + val;
+            }
+
+            @Override
+            public String parse(String val) {
+                return val;
+            }
+        };
+
+        ParseUtils.parse("abcsdf零零七sdf<a:bsd>, jjjf<l:我是搓搓搓<c:908>热热热>", pv);
     }
 }

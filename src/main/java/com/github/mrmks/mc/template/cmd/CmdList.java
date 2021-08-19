@@ -4,6 +4,7 @@ import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCfgCommand;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageHelper;
 import com.github.mrmks.mc.dev_tools_b.utils.ArraySlice;
+import com.github.mrmks.mc.dev_tools_b.utils.StringReplace;
 import com.github.mrmks.mc.template.config.ConfigManager;
 import com.google.common.collect.ImmutableMap;
 import org.bukkit.command.CommandSender;
@@ -44,7 +45,7 @@ public class CmdList extends FunctionCfgCommand {
                 page = Integer.parseInt(args.at(1));
             } catch (Throwable tr) {
                 LanguageHelper helper = getHelper(commandSender);
-                commandSender.sendMessage(helper.trans("tl.cmd.list.page_not_num", ImmutableMap.of("arg", args.at(1))));
+                commandSender.sendMessage(helper.trans("tl.cmd.list.page_not_num", "arg", args.at(1)));
                 return true;
             }
         } else if (args.size() > 0) {
@@ -55,7 +56,8 @@ public class CmdList extends FunctionCfgCommand {
         List<String> keys = cfg.getNames(group).stream().sorted().collect(Collectors.toList());
         page = Math.max(Math.min(page, (keys.size() - 1) / 10), 0);
         LanguageHelper helper = getHelper(commandSender);
-        StringBuilder builder = new StringBuilder(helper.trans("tl.cmd.list.list_title", ImmutableMap.of("group", group, "page", Integer.toString(page)))).append('\n');
+        StringBuilder builder = new StringBuilder(new StringReplace(helper.trans("tl.cmd.list.list_title"))
+                .replace("group", group).replace("page", Integer.toString(page)).toString()).append('\n');
         int first = page * 10;
         for (int i = first; i < Math.min(first + 10, keys.size()); i++){
             builder.append(keys.get(i)).append("\n");

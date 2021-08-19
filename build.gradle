@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.mrmks.mc'
-version '0.1.1-build8'
+version '0.1.2-build9'
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ dependencies {
         exclude group: 'junit'
     }
     compileOnly 'me.clip:placeholderapi:2.10.6'
-    compileOnly 'com.github.mrmks.mc:DevToolsB:0.6.2-build16'
+    compileOnly 'com.github.mrmks.mc:DevToolsB:0.6.3-build17'
     compileOnly files('../Libraries/craftbukkit-1.12.2.jar')
 }
 
