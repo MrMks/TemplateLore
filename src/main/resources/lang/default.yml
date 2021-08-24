@@ -1,6 +1,9 @@
 locale: en_us
 translation:
   tl.cmd:
+    root:
+      usg: <command> sub-command args
+      permMsg: ""
     reload:
       desc: reload templates, wordStocks and translation files
       usg: <command>

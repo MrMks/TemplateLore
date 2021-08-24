@@ -1,4 +1,8 @@
 tl.cmd:
+  root:
+    description: tl.cmd.root.desc
+    usage: tl.cmd.root.usg
+    permissionMessage: tl.cmd.root.permMsg
   get:
     name: get
     description: tl.cmd.get.desc

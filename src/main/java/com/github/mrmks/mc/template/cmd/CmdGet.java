@@ -1,14 +1,13 @@
 package com.github.mrmks.mc.template.cmd;
 
-import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCfgCommand;
+import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCommand;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageHelper;
 import com.github.mrmks.mc.dev_tools_b.utils.ArraySlice;
 import com.github.mrmks.mc.dev_tools_b.utils.StringReplace;
-import com.github.mrmks.mc.template.config.ConfigManager;
 import com.github.mrmks.mc.template.TemplateFile;
 import com.github.mrmks.mc.template.TemplateParser;
-import com.google.common.collect.ImmutableMap;
+import com.github.mrmks.mc.template.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class CmdGet extends FunctionCfgCommand {
+public class CmdGet extends FunctionCommand {
 
     private final ConfigManager cfg;
     public CmdGet(LanguageAPI api, ConfigManager cfg) {
@@ -30,7 +29,7 @@ public class CmdGet extends FunctionCfgCommand {
         this.cfg = cfg;
     }
 
-    public List<String> complete(CommandSender commandSender, String label, String fLabel, ArraySlice<String> args) {
+    public List<String> complete(CommandSender commandSender, String label, List<String> fLabel, ArraySlice<String> args) {
         if (args.size() == 1) {
             List<String> tmps = cfg.getGroups();
             String arg = args.at(0);
@@ -53,7 +52,7 @@ public class CmdGet extends FunctionCfgCommand {
         else return Collections.emptyList();
     }
 
-    public boolean execute(CommandSender sender, String label, String fLabel, ArraySlice<String> args) {
+    public boolean execute(CommandSender sender, String label, List<String> fLabel, ArraySlice<String> args) {
         Player player;
         String group;
         String name;
@@ -119,6 +118,7 @@ public class CmdGet extends FunctionCfgCommand {
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     private Player getPlayer(String name) {
         return Bukkit.getPlayer(name);
     }

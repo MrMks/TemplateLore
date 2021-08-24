@@ -5,7 +5,7 @@ depend: [DevToolsB]
 softdepend: [PlaceholderAPI]
 commands:
   tl:
-    permission: tl.perm.cmd.*
+    description: base command of template lore
 permissions:
   tl.perm.cmd.get:
     default: op

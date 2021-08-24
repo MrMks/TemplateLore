@@ -1,19 +1,18 @@
 package com.github.mrmks.mc.template.cmd;
 
-import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCfgCommand;
+import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCommand;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
 import com.github.mrmks.mc.dev_tools_b.lang.LanguageHelper;
 import com.github.mrmks.mc.dev_tools_b.utils.ArraySlice;
 import com.github.mrmks.mc.dev_tools_b.utils.StringReplace;
 import com.github.mrmks.mc.template.config.ConfigManager;
-import com.google.common.collect.ImmutableMap;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CmdList extends FunctionCfgCommand {
+public class CmdList extends FunctionCommand {
 
     private final ConfigManager cfg;
     public CmdList(LanguageAPI api, ConfigManager cfg) {
@@ -27,7 +26,7 @@ public class CmdList extends FunctionCfgCommand {
         this.cfg =cfg;
     }
 
-    public List<String> complete(CommandSender commandSender, String label, String fLabel, ArraySlice<String> args) {
+    public List<String> complete(CommandSender commandSender, String label, List<String> fLabel, ArraySlice<String> args) {
         if (args.size() > 1) return Collections.emptyList();
         else {
             String prefix = args.isEmpty() ? "" : args.first();
@@ -36,7 +35,7 @@ public class CmdList extends FunctionCfgCommand {
         }
     }
 
-    public boolean execute(CommandSender commandSender, String label, String fLabel, ArraySlice<String> args) {
+    public boolean execute(CommandSender commandSender, String label, List<String> fLabel, ArraySlice<String> args) {
         int page = 0;
         String group;
         if (args.size() > 1) {
