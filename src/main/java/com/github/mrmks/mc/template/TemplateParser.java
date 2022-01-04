@@ -233,7 +233,7 @@ public class TemplateParser {
                     if (sf.length() == 1) {
                         char stk = sf.charAt(0);
                         if (testToken(stk)) {
-                            EnumTagType ltag = null;
+                            NBTType ltag = null;
                             for (Object sov : lo) {
                                 TagBase tag = parseTokenNbt(stk, sov, info);
                                 if (tag == null) continue;
@@ -285,7 +285,7 @@ public class TemplateParser {
                         char tk;
                         if (sv.length() == 1 && testToken(tk = sv.charAt(0))) {
                             lo.remove(0);
-                            EnumTagType ltp = null;
+                            NBTType ltp = null;
                             TagList trt = new TagList();
                             for (Object ssov : lo) {
                                 TagBase tg = parseTokenNbt(tk, ssov, info);
