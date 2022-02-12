@@ -2,11 +2,11 @@
 key:
   # use & instead of § as the format token.
   # remove the name key or use n| to skip the name value
-  # if n| is the exact thing you want to set, use n|| instead. the second '|' next to the first one will be parsed to '|'
+  # if n| is the exact thing you want to set, use n|| instead. the second '|' will be parsed to ''
   name: "A Special Display Name"
   # LocName
   # remove the locName key or use n| to skip the locName value
-  locName: "cssddssasdssdasdsasds"
+  locName: "template.item.example"
   # the bukkit material Enum Name or Enum Id
   # this value can't be empty, if the value is empty or the value is failed to parse, the template will be skip
   id: AIR
@@ -18,7 +18,7 @@ key:
   size: 1
   # lore to set
   # if the line start with n|, the line will be skipped
-  # the n| will show that this line should not be set in lore. if you do want to set the line to n|, use n||, use n||| as n||, n|||| as n||| and so on.
+  # the n| will show that this line should not be set in lore. you can use n| as n||, use n||| as n||, n|||| as n||| and so on.
   lore:
     - abcds
     - fkdjsic
@@ -33,14 +33,14 @@ key:
   # the key should keep the format like: key|token
   #
   # if there isn't an token with the key, the parse will follow the rule below:
-  # 1. when the value is a list, then test the first value. if the first value can be parse to a long, then this will be a long array
-  # 2. if the first value can't be parse to a long, then this will be a list;
-  # 3. when the value has sub section, then this will be a compound;
-  # 4. when the value can be parse to a double, then it will be a double.
-  # 5. finally this will be stored as string
-  # this means it's ok to keep token empty, but it will occupy more memories than your data is required
+  # 1. if the value is a list, then test the first value. if the first value can be parsed to a long, then this will be a long array
+  # 2. if the first value can't be parsed to a long, then this will be a list(nbt tag);
+  # 3. if the value has sub-section, then this will be a compound;
+  # 4. if the value can be parsed to a double, then it will be a double.
+  # 5. if no rule was matched, this will be stored as string
+  # this means it's ok to keep token empty, but it may occupy more memories than your data is required
 
-  # there is no token for compound, just give it a sub section
+  # there is no token for compound, just give it a sub-section
 
   # if the key|token is required to use as an exact key, use key||token, use key|||token to show key||token, and so on
   # if the token is n or the value is n|n, the value will be skip
@@ -70,7 +70,7 @@ key:
 # <c:a,b> copy b times of a, for example, <c:|,0> will be "", <c:p,3> will be "ppp". notice that the ' ' at the beginning or the ending of the a will be trimmed. In this way, you can not repeat ' '
 # <C:b> since the c can not repeat ' ', this will repeat b times of ' ';
 # <f:n,format> use DecimalFormat to format the number
-# <m:math formula> cal the given formula.
+# <m:math formula> calculate the given formula.
 
 # m: for formula, those operator are available:
 # +/-, positive of negative number, 1

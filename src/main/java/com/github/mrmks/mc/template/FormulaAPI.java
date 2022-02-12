@@ -5,6 +5,25 @@ import java.util.ListIterator;
 import java.util.PrimitiveIterator;
 import java.util.Stack;
 
+/**
+ * operators:
+ * +,- subtract
+ * \ mod
+ * *,/ multiplier, divide
+ * ^ pow
+ * +,- positive, negative
+ * ()
+ *
+ * functions:
+ * round(a)
+ * round(a,b)
+ * round0(a)
+ * round0(a,b)
+ * floor(a)
+ * floor(a,b)
+ * ceil(a)
+ * ceil(b)
+ */
 public class FormulaAPI {
 
     public static Number mathCal(String s) {

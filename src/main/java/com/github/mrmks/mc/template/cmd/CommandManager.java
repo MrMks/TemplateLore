@@ -21,7 +21,7 @@ public class CommandManager {
         cmdCfg.loadCommand(rootAdaptor);
         rootAdaptor.addChild(cmdCfg.loadCommand(new CmdReload(api, cfg)));
         rootAdaptor.addChild(cmdCfg.loadCommand(new CmdList(api, cfg)));
-        rootAdaptor.addChild(cmdCfg.loadCommand(new CmdGet(api, cfg)));
+        rootAdaptor.addChild(cmdCfg.loadCommand(new CmdGive(api, cfg)));
         cmdCfg.save();
         rootAdaptor.registerHelpTopic(Bukkit.getHelpMap());
     }

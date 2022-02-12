@@ -3,12 +3,12 @@ tl.cmd:
     description: tl.cmd.root.desc
     usage: tl.cmd.root.usg
     permissionMessage: tl.cmd.root.permMsg
-  get:
-    name: get
-    description: tl.cmd.get.desc
-    usage: tl.cmd.get.usg
-    permission: tl.perm.cmd.get
-    permissionMessage: tl.cmd.get.permMsg
+  give:
+    name: give
+    description: tl.cmd.give.desc
+    usage: tl.cmd.give.usg
+    permission: tl.perm.cmd.give
+    permissionMessage: tl.cmd.give.permMsg
   reload:
     name: reload
     description: tl.cmd.reload.desc

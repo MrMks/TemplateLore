@@ -41,7 +41,7 @@ public class CmdList extends FunctionCommand {
         if (args.size() > 1) {
             group = args.first();
             try {
-                page = Integer.parseInt(args.at(1));
+                page = Integer.parseInt(args.at(1)) - 1;
             } catch (Throwable tr) {
                 LanguageHelper helper = getHelper(commandSender);
                 commandSender.sendMessage(helper.trans("tl.cmd.list.page_not_num", "arg", args.at(1)));
@@ -56,7 +56,7 @@ public class CmdList extends FunctionCommand {
         page = Math.max(Math.min(page, (keys.size() - 1) / 10), 0);
         LanguageHelper helper = getHelper(commandSender);
         StringBuilder builder = new StringBuilder(new StringReplace(helper.trans("tl.cmd.list.list_title"))
-                .replace("group", group).replace("page", Integer.toString(page)).toString()).append('\n');
+                .replace("group", group).replace("page", Integer.toString(page + 1)).toString()).append('\n');
         int first = page * 10;
         for (int i = first; i < Math.min(first + 10, keys.size()); i++){
             builder.append(keys.get(i)).append("\n");

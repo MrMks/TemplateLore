@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
+@Deprecated
 public class CmdGet extends FunctionCommand {
 
     private final ConfigManager cfg;
@@ -47,7 +48,7 @@ public class CmdGet extends FunctionCommand {
             }
             return re;
         } else if (args.size() == 3) {
-            return null;
+            return commandSender instanceof Player ? Collections.emptyList() : null;
         }
         else return Collections.emptyList();
     }
@@ -118,7 +119,6 @@ public class CmdGet extends FunctionCommand {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     private Player getPlayer(String name) {
         return Bukkit.getPlayer(name);
     }

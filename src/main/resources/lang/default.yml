@@ -1,26 +1,33 @@
-locale: en_us
+locale: zh_cn
 translation:
   tl.cmd:
     root:
-      usg: <command> sub-command args
+      usg: <command> [子命令] [参数]
       permMsg: ""
     reload:
-      desc: reload templates, wordStocks and translation files
+      desc: 重新加载模板、词库与语言文件
       usg: <command>
       permMsg: ""
-      reloading_cfg: reloading templates and wordStocks...
-      reloading_lapi: reloading translation files...
-      reload_finish: reload finished
+      reloading_cfg: 正在重载模板与词库...
+      reloading_lapi: 正在重载语言文件...
+      reload_finish: 重载结束
     get:
-      desc: generate an template item to the player
-      usg: <command> [group] <template> [player] [key1 value1 key2 value2 ...]
+      desc: 已弃用指令，请使用 give 代替
+      usg: <command> [组] <模板名> [玩家] [key1 value1 key2 value2 ...]
       permMsg: ""
-      offline_player: "Can give the item to an offline player: <player>"
-      parse_success: "Item has sent to player <player>"
-      not_exist: "Can find template <name> in group <group>"
+      offline_player: "<player> 未在线"
+      parse_success: "成功给予 <player> 道具"
+      not_exist: "无法在 <group> 组中找到名为 <name> 的模板"
+    give:
+      desc: 给予指定玩家指定的模板道具
+      usg: <command> <玩家> [组] <模板名> [key1 value1 key2 value2 ...]
+      permMsg: ""
+      offline_player: "<player> 未在线"
+      parse_success: "成功给予 <player> 道具 <itemName>"
+      not_exist: "无法在 <group> 组中找到名为 <name> 的模板"
     list:
-      desc: list all available templates
-      usg: <command> [group] [page]
+      desc: 列出可用的模板
+      usg: <command> [组] [页码]
       permMsg: ""
-      page_not_num: <arg> is not a number
-      list_title: "Available templates in <group> at page <page>: "
+      page_not_num: <arg> 不是一个有效的数字
+      list_title: "<group> 组中可用的模板（第 <page> 页）: "
