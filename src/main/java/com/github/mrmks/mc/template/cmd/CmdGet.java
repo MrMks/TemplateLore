@@ -1,10 +1,10 @@
 package com.github.mrmks.mc.template.cmd;
 
-import com.github.mrmks.mc.dev_tools_b.cmd.FunctionCommand;
-import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
-import com.github.mrmks.mc.dev_tools_b.lang.LanguageHelper;
-import com.github.mrmks.mc.dev_tools_b.utils.ArraySlice;
-import com.github.mrmks.mc.dev_tools_b.utils.StringReplace;
+import com.github.mrmks.mc.marcabone.cmd.FunctionCommand;
+import com.github.mrmks.mc.marcabone.lang.LanguageAPI;
+import com.github.mrmks.mc.marcabone.lang.LanguageHelper;
+import com.github.mrmks.mc.marcabone.utils.ArraySlice;
+import com.github.mrmks.mc.marcabone.utils.StringReplace;
 import com.github.mrmks.mc.template.TemplateFile;
 import com.github.mrmks.mc.template.TemplateParser;
 import com.github.mrmks.mc.template.config.ConfigManager;

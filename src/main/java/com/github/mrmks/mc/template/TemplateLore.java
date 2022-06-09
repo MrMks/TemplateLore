@@ -3,7 +3,7 @@ package com.github.mrmks.mc.template;
 import com.github.mrmks.mc.template.cmd.CommandManager;
 import com.github.mrmks.mc.template.config.ConfigManager;
 import com.github.mrmks.mc.template.papi.PlaceholderParser;
-import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
+import com.github.mrmks.mc.marcabone.lang.LanguageAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TemplateLore extends JavaPlugin {

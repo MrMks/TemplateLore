@@ -1,8 +1,8 @@
 package com.github.mrmks.mc.template.cmd;
 
-import com.github.mrmks.mc.dev_tools_b.cmd.CommandAdaptorSub;
-import com.github.mrmks.mc.dev_tools_b.cmd.CommandConfiguration;
-import com.github.mrmks.mc.dev_tools_b.lang.LanguageAPI;
+import com.github.mrmks.mc.marcabone.cmd.CommandAdaptorSub;
+import com.github.mrmks.mc.marcabone.cmd.CommandConfiguration;
+import com.github.mrmks.mc.marcabone.lang.LanguageAPI;
 import com.github.mrmks.mc.template.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;

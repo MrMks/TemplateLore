@@ -1,6 +1,6 @@
 package com.github.mrmks.mc.template;
 
-import com.github.mrmks.mc.dev_tools_b.nbt.*;
+import com.github.mrmks.mc.marcabone.nbt.*;
 import com.github.mrmks.mc.template.config.ConfigManager;
 import com.github.mrmks.mc.template.papi.IPAPIParser;
 import com.google.common.collect.ImmutableMap;
