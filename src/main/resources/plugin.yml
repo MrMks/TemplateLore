@@ -1,7 +1,7 @@
 name: TemplateLore
 version: ${version}
 main: com.github.mrmks.mc.template.TemplateLore
-depend: [DevToolsB]
+depend: [LibMarcaBone]
 softdepend: [PlaceholderAPI]
 commands:
   tl:
