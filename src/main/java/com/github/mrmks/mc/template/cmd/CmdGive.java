@@ -72,15 +72,15 @@ public class CmdGive extends FunctionCommand {
             return null;
         } else if (args.size() == 2) {
             List<String> tmps = cfg.getGroups();
-            String arg = args.at(0);
+            String arg = args.at(1);
             List<String> re = new ArrayList<>();
             for (String tmp : tmps) {
                 if (arg.equals("") || tmp.startsWith(arg)) re.add(tmp);
             }
             return re;
         } else if (args.size() == 3) {
-            List<String> tmps = cfg.getNames(args.at(0));
-            String arg = args.at(1);
+            List<String> tmps = cfg.getNames(args.at(1));
+            String arg = args.at(2);
             List<String> re = new ArrayList<>();
             for (String tmp : tmps) {
                 if (arg.equals("") || tmp.startsWith(arg)) re.add(tmp);
