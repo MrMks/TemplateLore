@@ -118,6 +118,10 @@ public class TemplateParser {
 
     private static void parseNbt(TagCompound base, ConfigurationSection sec, ParseInfo info) {
         Map<String, Object> secMap = sec.getValues(false);
+        parseNbt(base, secMap, info);
+    }
+
+    private static void parseNbt(TagCompound base, Map<String, Object> secMap, ParseInfo info) {
         for (Map.Entry<String, Object> se : secMap.entrySet()) {
             String src_k = se.getKey();
             Object ov = se.getValue();
@@ -163,6 +167,22 @@ public class TemplateParser {
                         parseNbt(stag, (ConfigurationSection) ov, info);
                         tag = stag;
                     }
+                } else if (ov instanceof Map<?,?>) {
+                    try {
+                        if (base.hasKey(k)) {
+                            TagBase ex_tag = base.getTag(k);
+                            if (ex_tag instanceof TagCompound) {
+                                //noinspection unchecked
+                                parseNbt((TagCompound) ex_tag, (Map<String, Object>) ov, info);
+                            }
+                            tag = ex_tag;
+                        } else {
+                            TagCompound stag = new TagCompound();
+                            //noinspection unchecked
+                            parseNbt(stag, (Map<String, Object>) ov, info);
+                            tag = stag;
+                        }
+                    } catch (Throwable ignored) {}
                 } else {
                     if (!base.hasKey(k)) tag = parseNonTokenNbt(ov, info);
                 }
@@ -212,14 +232,17 @@ public class TemplateParser {
                 }
             } else v = new Number[]{parseNbtNum(ov, info)};
             if (tk == 'B') {
+                if (ov instanceof byte[]) return new TagByteArray((byte[]) ov);
                 byte[] cv = new byte[v.length];
                 for (int i = 0; i < cv.length; i++) cv[i] = v[i].byteValue();
                 return new TagByteArray(cv);
             } else if (tk == 'I') {
+                if (ov instanceof int[]) return new TagIntArray((int[]) ov);
                 int[] cv = new int[v.length];
                 for (int i = 0; i < cv.length; i++) cv[i] = v[i].intValue();
                 return new TagIntArray(cv);
             } else {
+                if (ov instanceof long[]) return new TagLongArray((long[]) ov);
                 long[] cv = new long[v.length];
                 for (int i = 0; i < cv.length; i++) cv[i] = v[i].longValue();
                 return new TagLongArray(cv);
@@ -227,7 +250,7 @@ public class TemplateParser {
         } else if (tk == 'a') {
             TagList list = new TagList();
             if (ov instanceof List<?>) {
-                List<?> lo = (List<?>) ov;
+                List<?> lo = new ArrayList<>((List<?>) ov);
                 if (lo.size() > 1) {
                     String sf = lo.remove(0).toString();
                     if (sf.length() == 1) {
@@ -239,9 +262,19 @@ public class TemplateParser {
                                 if (tag == null) continue;
                                 if (ltag == null) {
                                     ltag = tag.getType();
+                                    list.addTag(tag);
                                 } else if (ltag == tag.getType()) {
                                     list.addTag(tag);
                                 }
+                            }
+                        } else if (stk == 'c') {
+                            for (Object sov : lo) {
+                                try {
+                                    TagCompound cmp = new TagCompound();
+                                    //noinspection unchecked
+                                    parseNbt(cmp, (Map<String, Object>) sov, info);
+                                    list.addTag(cmp);
+                                } catch (Throwable ignored) {}
                             }
                         }
                     }

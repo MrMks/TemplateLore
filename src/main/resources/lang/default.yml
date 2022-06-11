@@ -31,3 +31,11 @@ translation:
       permMsg: ""
       page_not_num: <arg> 不是一个有效的数字
       list_title: "<group> 组中可用的模板（第 <page> 页）: "
+    dump:
+      desc: 生成当前主手道具的模板，生成的模板将被分类在dump组中
+      usg: <command> [模板名]
+      permMsg: ""
+      success: "成功生成模板文件: <name>"
+      air_or_empty: "主手道具为空，无法储存模板文件"
+      player_only: "该指令仅可由玩家使用"
+

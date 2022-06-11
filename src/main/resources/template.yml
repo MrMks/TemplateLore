@@ -9,7 +9,7 @@ key:
   locName: "template.item.example"
   # the bukkit material Enum Name or Enum Id
   # this value can't be empty, if the value is empty or the value is failed to parse, the template will be skip
-  id: AIR
+  id: DIAMOND_SWORD
   # the damage of the item, this can also used as meta
   # if the value failed to parse, the value will be 0
   damage: 20
@@ -48,19 +48,27 @@ key:
   # in other cases, the '||' won't be shrunk;
   nbt:
     # key|token(one code)
-    key|b: 0 #byte
-    key|B: [0,0,0,1] #byte array
-    key|i: 20 #int
-    key|I: [20,21,22] #int array
-    key|l: 2000 #long
-    key|L: [2000, 21000, 220000] #long array
-    key|s: 2020 # short
-    key|d: 200987.2918 # double
-    key|f: 2093.98 # float
-    key|S: jid7e3mjc983 # String
-    key|a: # list(array)
-      - i # the first element should be the type token to identity the type of content of the list
-      - 0 # content of the list
+    tl_nbts:
+      key_b|b: 0 #byte
+      key_B|B: [0,0,0,1] #byte array
+      key_i|i: 20 #int
+      key_I|I: [20,21,22] #int array
+      key_l|l: 2000 #long
+      key_L|L: [2000, 21000, 220000] #long array
+      key_s|s: 2020 # short
+      key_d|d: 200987.2918 # double
+      key_f|f: 2093.98 # float
+      key_S|S: jid7e3mjc983 # String
+      key_a|a: # list(array)
+        - 'i' # the first element should be the type token to identity the type of content of the list
+        - 0 # content of the list
+      key_ac|a:
+        - 'c' # specially, here you can use c to identity the Compound in List
+        -
+          key: value
+          key2: value2
+        -
+
 
 # parse tags
 # <r:a,b> random an number between a and b

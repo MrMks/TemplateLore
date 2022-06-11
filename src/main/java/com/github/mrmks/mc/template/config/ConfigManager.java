@@ -3,9 +3,11 @@ package com.github.mrmks.mc.template.config;
 import com.github.mrmks.mc.template.TemplateFile;
 import com.github.mrmks.mc.template.WordStock;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class ConfigManager {
@@ -131,5 +133,11 @@ public class ConfigManager {
     public void cleanup() {
         words.clear();
         templates.clear();
+    }
+
+    public void dumpTo(YamlConfiguration tmp, String name) throws IOException {
+        tmp.save(new File(folder, "template/dump/" + name + ".yml"));
+        if (!templates.containsKey("dump")) templates.put("dump", new HashMap<>());
+        templates.get("dump").put(name, new TemplateFile(tmp.getConfigurationSection(name)));
     }
 }

@@ -6,8 +6,8 @@ This is a simple plugin to generate an item in minecraft.
 To generate the item, you should write a template for it.  
 Besides the template, you can also write some word stocks for easier management.
 
-For template, please see /resources/template.yml  
-For wordStock, please see /resources/wordStock.yml
+For template, please see [/resources/template.yml](./src/main/resources/template.yml)  
+For wordStock, please see [/resources/wordStock.yml](./src/main/resources/wordStock.yml)
 
 Just put your template files in template folder and put your wordStock files in wordStock folder
 
@@ -24,5 +24,5 @@ Here are the parse tags, start with '<' and end with '>', with an ':' to split t
 |s|k|random select a word in wordStock k|
 |l|k|random select a word in wordStock k then remember the parsed word|
 |L|k|random select a word in wordStock k then remember the source word|
-|m|formula|cal the given formula and return as an double value|
+|m(in beta)|formula|cal the given formula and return as an double value|
 

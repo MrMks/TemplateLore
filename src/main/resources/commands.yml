@@ -21,3 +21,9 @@ tl.cmd:
     usage: tl.cmd.list.usg
     permission: tl.perm.cmd.list
     permissionMessage: tl.cmd.list.permMsg
+  dump:
+    name: dump
+    description: tl.cmd.dump.desc
+    usage: tl.cmd.dump.usg
+    permission: tl.perm.cmd.dump
+    permissionMessage: tl.cmd.dump.permMsg
