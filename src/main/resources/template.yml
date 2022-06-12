@@ -1,6 +1,5 @@
 # the template key
 key:
-  # use & instead of § as the format token.
   # remove the name key or use n| to skip the name value
   # if n| is the exact thing you want to set, use n|| instead. the second '|' will be parsed to ''
   name: "A Special Display Name"
@@ -26,26 +25,17 @@ key:
     - sldkfjhgalskdjfhg
     - n|
     - n|
-    - %player%
+    - <p:player_name>
 
   # keys listed below will not be applied:
   # display, Damage, Count, id
   # the key should keep the format like: key|token
   #
-  # if there isn't an token with the key, the parse will follow the rule below:
-  # 1. if the value is a list, then test the first value. if the first value can be parsed to a long, then this will be a long array
-  # 2. if the first value can't be parsed to a long, then this will be a list(nbt tag);
-  # 3. if the value has sub-section, then this will be a compound;
-  # 4. if the value can be parsed to a double, then it will be a double.
-  # 5. if no rule was matched, this will be stored as string
-  # this means it's ok to keep token empty, but it may occupy more memories than your data is required
+  # if there has no token with the key, the key will be skipped.
 
-  # there is no token for compound, just give it a sub-section
+  # there is no token for compound, just give it a sub-section. specially, in List, the 'c' is used as the token of compound
 
-  # if the key|token is required to use as an exact key, use key||token, use key|||token to show key||token, and so on
-  # if the token is n or the value is n|n, the value will be skip
-  # only if the token is valid or the token is n, the last two '||' will be parsed to '|';
-  # in other cases, the '||' won't be shrunk;
+  # if the token is n or the beginning of the value is 'n|', the value will be skip
   nbt:
     # key|token(one code)
     tl_nbts:
@@ -68,17 +58,19 @@ key:
           key: value
           key2: value2
         -
-
+          key: v
+          key2: v2
 
 # parse tags
-# <r:a,b> random an number between a and b
-# <s:key> random select word
-# <l:key> random select word and remember the word(after wrapped), will return the same word at next use
-# <L:key> similar to the l but remember the not wrapped word
+# <r:a,b> generate a random integer between a and b
+# <s:key> select a word randomly in the given wordStock.
+# <l:key> select a word randomly and remember the word(being parsed), and return the same word if the key is same.
+# <L:key> similar to the 'l', but remember the word before parse.
 # <c:a,b> copy b times of a, for example, <c:|,0> will be "", <c:p,3> will be "ppp". notice that the ' ' at the beginning or the ending of the a will be trimmed. In this way, you can not repeat ' '
 # <C:b> since the c can not repeat ' ', this will repeat b times of ' ';
 # <f:n,format> use DecimalFormat to format the number
 # <m:math formula> calculate the given formula.
+# <p:placeholder> if you install PlaceholderAPI on you server, you can use this tag to parse %placeholder% via papi.
 
 # m: for formula, those operator are available:
 # +/-, positive of negative number, 1
@@ -96,5 +88,3 @@ key:
 # floor(a,b), Math.floor(a / 10 ^ b) * 10 ^ b, notice that the b must be an integer
 # floor(a), equal to floor(a, 0);
 # ()
-
-# if you install papi on you server, you can use placeholders in this wordStocks or templates

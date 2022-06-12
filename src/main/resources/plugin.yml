@@ -7,7 +7,7 @@ commands:
   tl:
     description: base command of template lore
 permissions:
-  tl.perm.cmd.get:
+  tl.perm.cmd.give:
     default: op
   tl.perm.cmd.list:
     default: op
@@ -15,4 +15,4 @@ permissions:
     default: op
   tl.perm.cmd.*:
     default: op
-    children: [tl.perm.cmd.get, tl.perm.cmd.list, tl.perm.cmd.reload]
+    children: [tl.perm.cmd.give, tl.perm.cmd.list, tl.perm.cmd.reload]

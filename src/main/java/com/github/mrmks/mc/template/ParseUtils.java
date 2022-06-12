@@ -83,7 +83,7 @@ public class ParseUtils {
     }
 
     public static String parse(String str, ITokenProvider pv) {
-        StringBuilder bd = new StringBuilder(pv.parse(str));
+        StringBuilder bd = new StringBuilder(str);
 
         int v = -1, lv;
         // ':' is 58, '<' is 60, '>' is 62, '\' is 92;

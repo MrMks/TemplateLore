@@ -29,7 +29,7 @@ public class TemplateParser {
         info.map = args;
 
         Material material = Material.matchMaterial(parse(temp.getMaterial(), info));
-        if (material == null) return new ItemStack(Material.AIR);
+        if (material == null || material == Material.AIR) return new ItemStack(Material.AIR);
         ItemStack stack = new ItemStack(material);
 
         int size = temp.isDirectSize() ? temp.getSizeI() : parseInt(parse(temp.getSize(), info));
@@ -37,30 +37,32 @@ public class TemplateParser {
         stack.setAmount(size);
 
         short dmg = temp.isDirectDamage() ? temp.getDamageI() : parseShort(parse(temp.getDamage(), info));
-        dmg = (short) Math.max(0, dmg);
+        if (dmg < 0) dmg = 0;
         stack.setDurability(dmg);
 
         ItemMeta meta = stack.getItemMeta();
-        String tmp;
-        if (temp.isSetName()) {
-            String str = parsePrefix(parse(temp.getName(), info));
-            if (str != null) meta.setDisplayName(str);
-        }
-
-        if (temp.isSetLocName()) {
-            if ((tmp = parsePrefix(parse(temp.getLocName(), info))) != null)
-                meta.setLocalizedName(tmp);
-        }
-
-        if (temp.isSetLore()) {
-            List<String> list = new ArrayList<>(temp.getLore().size());
-            for (String line : temp.getLore()) {
-                tmp = parsePrefix(parse(line, info));
-                if (tmp != null) list.add(tmp);
+        if (meta != null) {
+            String tmp;
+            if (temp.isSetName()) {
+                String str = parsePrefix(parse(temp.getName(), info));
+                if (str != null) meta.setDisplayName(str);
             }
-            meta.setLore(list);
+
+            if (temp.isSetLocName()) {
+                if ((tmp = parsePrefix(parse(temp.getLocName(), info))) != null)
+                    meta.setLocalizedName(tmp);
+            }
+
+            if (temp.isSetLore()) {
+                List<String> list = new ArrayList<>(temp.getLore().size());
+                for (String line : temp.getLore()) {
+                    tmp = parsePrefix(parse(line, info));
+                    if (tmp != null) list.add(tmp);
+                }
+                meta.setLore(list);
+            }
+            stack.setItemMeta(meta);
         }
-        stack.setItemMeta(meta);
 
         if (temp.isSetNbt()) {
             NBTItem item = new NBTItem(stack);
@@ -94,7 +96,8 @@ public class TemplateParser {
                     .put("C", TemplateParser::parse_C)
                     .put("r", TemplateParser::parse_r)
                     .put("f", TemplateParser::parse_f)
-                    .put("m", TemplateParser::parse_m);
+                    .put("m", TemplateParser::parse_m)
+                    .put("p", (s, i) -> papiParser.parse(i.player, "%"+s+"%"));
             meMap = bd.build();
         }
         ITokenProvider pv = new ITokenProvider() {
@@ -106,11 +109,6 @@ public class TemplateParser {
             @Override
             public String parse(String tk, String val) {
                 return meMap.get(tk).parse(val, info);
-            }
-
-            @Override
-            public String parse(String val) {
-                return papiParser.parse(info.player, val);
             }
         };
         return ParseUtils.parse(str, pv);
@@ -132,20 +130,16 @@ public class TemplateParser {
 
             boolean useType = false;
             char tk = 0;
-            // test if there is an type token
+            // test if there is a type token
             if (k.length() > 2) {
-                char t = k.charAt(k.length() - 2), et = k.charAt(k.length() - 3);
+                char t = k.charAt(k.length() - 2);
                 if (t == '|') {
                     tk = k.charAt(k.length() - 1);
-                    if (testToken(tk) || tk == 'n') {
-                        if (et == '|') {
-                            k = k.substring(0, k.length() - 2) + tk;
-                        } else if (tk != 'n'){
-                            k = k.substring(0, k.length() - 2);
-                            useType = true;
-                        } else {
-                            continue;
-                        }
+                    if (testToken(tk)) {
+                        k = k.substring(0, k.length() - 2);
+                        useType = true;
+                    } else {
+                        continue;
                     }
                 }
             }
@@ -183,8 +177,6 @@ public class TemplateParser {
                             tag = stag;
                         }
                     } catch (Throwable ignored) {}
-                } else {
-                    if (!base.hasKey(k)) tag = parseNonTokenNbt(ov, info);
                 }
             }
             if (tag == null) continue;
@@ -218,8 +210,7 @@ public class TemplateParser {
             if (ov instanceof String) {
                 sv = parsePrefix(parse(sv, info));
             }
-            if (sv != null) return new TagString(sv);
-            else return null;
+            return sv == null ? null : new TagString(sv);
         } else if (tk == 'B' || tk == 'I' || tk == 'L') {
             Number[] v;
             if (ov instanceof List<?>) {
@@ -283,78 +274,6 @@ public class TemplateParser {
             return list;
         }
         return null;
-    }
-
-    private static TagBase parseNonTokenNbt(Object ov, ParseInfo info) {
-        if (ov == null) return null;
-        if (ov instanceof Number) {
-            return new TagDouble(((Number) ov).doubleValue());
-        } else if (ov instanceof String || ov instanceof Character) {
-            String sv = ov.toString();
-            sv = parsePrefix(parse(sv, info));
-            if (sv == null) {
-                return null;
-            } else {
-                try {
-                    return new TagDouble(Double.parseDouble(sv));
-                } catch (NumberFormatException e) {
-                    return new TagString(sv);
-                }
-            }
-        } else if (ov instanceof List<?>) {
-            List<?> lo = (List<?>) ov;
-            if (lo.isEmpty()) return new TagList();
-            else {
-                boolean isNum;
-                long tv;
-                Object sov = lo.get(0);
-                if (sov instanceof Number) {
-                    isNum = true;
-                    tv = ((Number) sov).longValue();
-                } else if (sov instanceof String || sov instanceof Character) {
-                    String sv = sov.toString();
-                    sv = parsePrefix(parse(sv, info));
-                    if (sv != null) {
-                        char tk;
-                        if (sv.length() == 1 && testToken(tk = sv.charAt(0))) {
-                            lo.remove(0);
-                            NBTType ltp = null;
-                            TagList trt = new TagList();
-                            for (Object ssov : lo) {
-                                TagBase tg = parseTokenNbt(tk, ssov, info);
-                                if (tg == null) continue;
-                                if (ltp == null) {
-                                    ltp = tg.getType();
-                                    trt.addTag(tg);
-                                } else if (ltp == tg.getType()) {
-                                    trt.addTag(tg);
-                                }
-                            }
-                            return trt;
-                        } else {
-                            try {
-                                tv = Long.parseLong(sv);
-                                isNum = true;
-                            } catch (NumberFormatException e) {
-                                tv = 0;
-                                isNum = false;
-                            }
-                        }
-                    } else return null;
-                } else return null;
-                if (isNum) {
-                    long[] v = new long[lo.size()];
-                    v[0] = tv;
-                    Iterator<?> it = lo.iterator();
-                    it.next();
-                    int i = 1;
-                    while (it.hasNext()) {
-                        v[i++] = parseNbtNum(it.next(), info).longValue();
-                    }
-                    return new TagLongArray(v);
-                } else return null;
-            }
-        } else return null;
     }
 
     private static Number parseNbtNum(Object ov, ParseInfo info) {

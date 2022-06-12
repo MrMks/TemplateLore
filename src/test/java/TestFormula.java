@@ -80,10 +80,6 @@ public class TestFormula {
                 return tk + val;
             }
 
-            @Override
-            public String parse(String val) {
-                return val;
-            }
         };
 
         ParseUtils.parse("abcsdf零零七sdf<a:bsd>, jjjf<l:我是搓搓搓<c:908>热热热>", pv);

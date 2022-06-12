@@ -25,4 +25,5 @@ Here are the parse tags, start with '<' and end with '>', with an ':' to split t
 |l|k|random select a word in wordStock k then remember the parsed word|
 |L|k|random select a word in wordStock k then remember the source word|
 |m(in beta)|formula|cal the given formula and return as an double value|
+|p|papi_code|parse the given papi code, without the '%' mark|
 

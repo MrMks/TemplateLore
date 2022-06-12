@@ -25,9 +25,9 @@ public class TemplateDumper {
 
         ItemMeta meta = stack.getItemMeta();
         if (meta != null) {
-            if (meta.hasDisplayName()) cs.set("name", prefixStr(meta.getDisplayName()));
-            if (meta.hasLocalizedName()) cs.set("locName", prefixStr(meta.getLocalizedName()));
-            if (meta.hasLore()) cs.set("lore", meta.getLore().stream().map(TemplateDumper::prefixStr).collect(Collectors.toList()));
+            if (meta.hasDisplayName()) cs.set("name", fixStr(meta.getDisplayName()));
+            if (meta.hasLocalizedName()) cs.set("locName", fixStr(meta.getLocalizedName()));
+            if (meta.hasLore()) cs.set("lore", meta.getLore().stream().map(TemplateDumper::fixStr).collect(Collectors.toList()));
         }
 
         NBTItem ni = new NBTItem(stack);
@@ -98,7 +98,7 @@ public class TemplateDumper {
             case LONG_ARRAY: return ((TagLongArray) base).getData();
             case FLOAT: return ((TagFloat) base).getData();
             case DOUBLE: return ((TagDouble) base).getData();
-            case STRING: return prefixStr(((TagString) base).getData());
+            case STRING: return fixStr(((TagString) base).getData());
 
         }
         if (base.getType() == NBTType.LIST) {
@@ -123,8 +123,12 @@ public class TemplateDumper {
         return null;
     }
 
-    private static String prefixStr(String src) {
-        if (src.startsWith("n|")) return "n||" + src.substring(2);
-        else return src;
+    private static String fixStr(String src) {
+        StringBuilder bd = new StringBuilder(src);
+        if (src.startsWith("n|")) bd.insert(1, '|');
+        for (int i = 0; i < bd.length(); i++) {
+            if (bd.charAt(i) == '<') bd.insert(i++, '\\');
+        }
+        return bd.toString();
     }
 }
